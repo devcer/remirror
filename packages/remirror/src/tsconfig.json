@@ -113,6 +113,9 @@
       "path": "../../remirror__extension-italic/src"
     },
     {
+      "path": "../../remirror__extension-italic-custom/src"
+    },
+    {
       "path": "../../remirror__extension-link/src"
     },
     {

@@ -255,7 +255,7 @@ If you prefer not to use the automated method for creating extension the followi
 ### Final steps
 
 1. (OPTIONAL) -Add your name and email as a contributor to the `package.json`.
-2. Add `packages/remirror/extension/<name>/package.json`.
+2. Add `packages/remirror/package.json`.
 3. Add `packages/remirror/src/extension/<name>.ts`.
 4. Edit `packages/remirror/package.json` to add dependency and entrypoint.
 5. (OPTIONAL) - Edit `/.changeset/config.json` and add the package name to the linked array.

@@ -386,6 +386,14 @@
     "gzip": true
   },
   {
+    "name": "@remirror/extension-italic-custom",
+    "limit": "5 KB",
+    "path": "packages/remirror__extension-italic-custom/dist/remirror-extension-italic-custom.browser.esm.js",
+    "ignore": ["@remirror/pm", "@remirror/core", "@remirror/messages"],
+    "running": false,
+    "gzip": true
+  },
+  {
     "name": "@remirror/extension-link",
     "limit": "5 KB",
     "path": "packages/remirror__extension-link/dist/remirror-extension-link.browser.esm.js",

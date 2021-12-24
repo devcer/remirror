@@ -25,6 +25,7 @@ export * from '@remirror/extension-history';
 export * from '@remirror/extension-horizontal-rule';
 export * from '@remirror/extension-image';
 export * from '@remirror/extension-italic';
+export * from '@remirror/extension-italic-custom';
 export * from '@remirror/extension-link';
 export * from '@remirror/extension-list';
 export * from '@remirror/extension-markdown';

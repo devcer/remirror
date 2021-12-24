@@ -35,7 +35,7 @@ There are three types of `Extension`.
 
 ## Lifecycle Methods
 
-Extensions can customise the editor via these **LifeCycle Methods**. Even core functionality like the creation of `Schema` is added to `remirror` via and `Extension`. The following is an outline of the lifecycle methods you can use while working with `remirror`.
+Extensions can customise the editor via these **LifeCycle Methods**. Even core functionality like the creation of `Schema` is added to `remirror` via an `Extension`. The following is an outline of the lifecycle methods you can use while working with `remirror`.
 
 ### `onCreate`
 
@@ -213,7 +213,6 @@ class ExampleExtension extends PlainExtension<ExampleOptions> {
   }
 
   onTransaction(parameter: StateUpdateLifecycleParameter) {
-    const { state } = parameter;
     const { tr, state, previousState } = parameter;
 
     const hasChanged = tr
