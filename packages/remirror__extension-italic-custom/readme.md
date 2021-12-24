@@ -1,4 +1,4 @@
-# @remirror/extension-italic
+# @remirror/extension-italic-custom
 
 > Adds italic formatting to your text editor.
 

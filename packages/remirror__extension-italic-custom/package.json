@@ -19,11 +19,11 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./dist/remirror-extension-italic.esm.js",
-      "require": "./dist/remirror-extension-italic.cjs.js",
-      "browser": "./dist/remirror-extension-italic.browser.esm.js",
-      "types": "./dist/remirror-extension-italic.cjs.d.ts",
-      "default": "./dist/remirror-extension-italic.esm.js"
+      "import": "./dist/remirror-extension-italic-custom.esm.js",
+      "require": "./dist/remirror-extension-italic-custom.cjs.js",
+      "browser": "./dist/remirror-extension-italic-custom.browser.esm.js",
+      "types": "./dist/remirror-extension-italic-custom.cjs.d.ts",
+      "default": "./dist/remirror-extension-italic-custom.esm.js"
     },
     "./package.json": "./package.json",
     "./types/*": "./dist/declarations/src/*.d.ts"
@@ -34,7 +34,7 @@
     "./dist/remirror-extension-italic-custom.cjs.js": "./dist/remirror-extension-italic-custom.browser.cjs.js",
     "./dist/remirror-extension-italic-custom.esm.js": "./dist/remirror-extension-italic-custom.browser.esm.js"
   },
-  "types": "dist/remirror-extension-italic.cjs.d.ts",
+  "types": "dist/remirror-extension-italic-custom.cjs.d.ts",
   "files": [
     "dist"
   ],

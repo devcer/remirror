@@ -103,7 +103,7 @@
     "@remirror/extension-horizontal-rule": "^1.0.12",
     "@remirror/extension-image": "^1.0.20",
     "@remirror/extension-italic": "^1.0.12",
-    "@remirror/extension-italic-custom": "^1.0.12",
+    "@remirror/extension-italic-custom": "0.0.0",
     "@remirror/extension-link": "^1.1.11",
     "@remirror/extension-list": "^1.2.9",
     "@remirror/extension-markdown": "^1.0.12",
