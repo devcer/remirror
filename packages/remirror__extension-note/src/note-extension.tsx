@@ -20,22 +20,13 @@ import {
   PrimitiveSelection,
   ProsemirrorNode,
   Transaction,
-  uploadFile,
-  UploadFileHandler,
   UploadPlaceholderPayload,
 } from '@remirror/core';
-import { PasteRule } from '@remirror/pm/paste-rules';
 import { NodeViewComponentProps } from '@remirror/react';
 
-import { createDataUrlFileUploader } from './file-uploaders';
 import { NoteComponent, NoteComponentProps } from './note-component';
 
 export interface NoteOptions {
-  /**
-   * A function returns a `FileUploader` which will handle the upload process.
-   */
-  uploadFileHandler?: UploadFileHandler<NoteAttributes>;
-
   render?: (props: NoteComponentProps) => React.ReactElement<HTMLElement> | null;
 
   /**
@@ -57,7 +48,6 @@ export interface NoteOptions {
  */
 @extension<NoteOptions>({
   defaultOptions: {
-    uploadFileHandler: createDataUrlFileUploader,
     render: NoteComponent,
     pasteRuleRegexp: /^((?!image).)*$/i,
   },
@@ -142,47 +132,6 @@ export class NoteExtension extends NodeExtension<NoteOptions> {
     };
   }
 
-  createPasteRules(): PasteRule[] {
-    return [
-      {
-        type: 'file',
-        regexp: this.options.pasteRuleRegexp,
-        fileHandler: (props) => {
-          let pos: number | undefined;
-
-          if (props.type === 'drop') {
-            pos = props.pos;
-          }
-
-          for (const file of props.files) {
-            this.uploadFile(file, pos);
-          }
-
-          return true;
-        },
-      },
-    ];
-  }
-
-  @command()
-  uploadFiles(files: File[]): CommandFunction {
-    return () => {
-      for (const file of files) {
-        this.uploadFile(file);
-      }
-
-      return true;
-    };
-  }
-
-  @command()
-  updateFile(pos: number, attrs: NoteAttributes): CommandFunction {
-    return ({ tr, dispatch }) => {
-      dispatch?.(tr.setNodeMarkup(pos, undefined, attrs));
-      return true;
-    };
-  }
-
   @command()
   insertNote(attributes: NoteAttributes, selection?: PrimitiveSelection): CommandFunction {
     return ({ tr, dispatch }) => {
@@ -251,16 +200,6 @@ export class NoteExtension extends NodeExtension<NoteOptions> {
 
     // Don't need to handle the delete ourselves, just the callbacks
     return false;
-  }
-
-  private uploadFile(file: File, pos?: number | undefined): void {
-    return uploadFile({
-      file,
-      pos,
-      view: this.store.view,
-      fileType: this.type,
-      uploadHandler: this.options.uploadFileHandler,
-    });
   }
 }
 

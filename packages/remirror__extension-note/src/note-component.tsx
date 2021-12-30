@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { UploadContext } from '@remirror/core';
-import { NodeViewComponentProps, useCommands } from '@remirror/react';
+import { NodeViewComponentProps } from '@remirror/react';
 import { ExtensionNoteTheme } from '@remirror/theme';
 
 import type { NoteAttributes } from './note-extension';
