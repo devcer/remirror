@@ -9,6 +9,7 @@ export * as ExtensionGapCursorTheme from './extension-gap-cursor-theme';
 export * as ExtensionImageTheme from './extension-image-theme';
 export * as ExtensionListTheme from './extension-list-theme';
 export * as ExtensionMentionAtomTheme from './extension-mention-atom-theme';
+export * as ExtensionNoteTheme from './extension-note-theme';
 export * as ExtensionPlaceholderTheme from './extension-placeholder-theme';
 export * as ExtensionPositionerTheme from './extension-positioner-theme';
 export * as ExtensionTablesTheme from './extension-tables-theme';

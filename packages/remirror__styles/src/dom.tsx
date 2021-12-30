@@ -3779,6 +3779,62 @@ export const extensionNodeFormattingStyledCss: ReturnType<typeof css> = css`
   }
 `;
 
+export const extensionNoteStyledCss: ReturnType<typeof css> = css`
+  /**
+ * Styles extracted from: packages/remirror__theme/src/extension-note-theme.ts
+ */
+  .remirror-note-root {
+    background-color: rgba(247, 246, 249, 0.5);
+    border: 1px solid #edeff2;
+    box-sizing: border-box;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 4px 80px;
+  }
+
+  .remirror-note-title {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 15px;
+    display: flex;
+    align-items: center;
+    color: #262c3d;
+    margin-bottom: 4px !important;
+  }
+
+  .remirror-note-description {
+    font-size: 13px;
+    line-height: 15px;
+    display: flex;
+    align-items: center;
+    color: #262c3d;
+    margin-bottom: 12px !important;
+  }
+
+  .remirror-note-footer-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .remirror-note-duration {
+    font-size: 11px;
+    line-height: 13px;
+    display: flex;
+    align-items: center;
+    color: #8c95a8;
+    margin-right: 28px !important;
+  }
+
+  .remirror-note-interview-name {
+    font-size: 11px;
+    line-height: 13px;
+    display: flex;
+    align-items: center;
+    color: #8c95a8;
+  }
+`;
+
 export const extensionPlaceholderStyledCss: ReturnType<typeof css> = css`
   /**
  * Styles extracted from: packages/remirror__theme/src/extension-placeholder-theme.ts
@@ -4561,6 +4617,7 @@ export const allStyledCss: ReturnType<typeof css> = css`
   ${extensionListStyledCss}
   ${extensionMentionAtomStyledCss}
   ${extensionNodeFormattingStyledCss}
+  ${extensionNoteStyledCss}
   ${extensionPlaceholderStyledCss}
   ${extensionPositionerStyledCss}
   ${extensionTablesStyledCss}

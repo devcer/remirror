@@ -49,6 +49,8 @@ export * from '@remirror/extension-underline';
 export * from '@remirror/extension-whitespace';
 export * from '@remirror/extension-yjs';
 export * from '@remirror/preset-formatting';
+export * from '@remirror/extension-chill';
+export * from '@remirror/extension-note';
 
 // Presets
 export * from '@remirror/preset-core';
