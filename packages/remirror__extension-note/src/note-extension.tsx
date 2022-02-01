@@ -7,7 +7,6 @@ import {
   extension,
   ExtensionPriority,
   ExtensionTag,
-  findUploadPlaceholderPayload,
   getTextSelection,
   Handler,
   keyBinding,
@@ -20,7 +19,6 @@ import {
   PrimitiveSelection,
   ProsemirrorNode,
   Transaction,
-  UploadPlaceholderPayload,
 } from '@remirror/core';
 import { NodeViewComponentProps } from '@remirror/react';
 
@@ -28,14 +26,6 @@ import { NoteComponent, NoteComponentProps } from './note-component';
 
 export interface NoteOptions {
   render?: (props: NoteComponentProps) => React.ReactElement<HTMLElement> | null;
-
-  /**
-   * A regex test for the file type when users paste files.
-   *
-   * @default /^((?!image).)*$/i - Only match non-image files, as image files
-   * will be handled by the `ImageExtension`.
-   */
-  pasteRuleRegexp?: RegExp;
 
   /**
    * Called after the `commands.deleteFile` has been called.
@@ -49,7 +39,6 @@ export interface NoteOptions {
 @extension<NoteOptions>({
   defaultOptions: {
     render: NoteComponent,
-    pasteRuleRegexp: /^((?!image).)*$/i,
   },
   handlerKeys: ['onDeleteFile'],
 })
@@ -59,11 +48,7 @@ export class NoteExtension extends NodeExtension<NoteOptions> {
   }
 
   ReactComponent: ComponentType<NodeViewComponentProps> = (props) => {
-    const payload: UploadPlaceholderPayload<NoteAttributes> | undefined =
-      findUploadPlaceholderPayload(props.view.state, props.node.attrs.id);
-    const context = payload?.context;
-    const abort = () => payload?.fileUploader.abort();
-    return this.options.render({ ...props, context, abort });
+    return this.options.render({ ...props, abort: () => { }, context: undefined });
   };
 
   createTags() {
@@ -80,6 +65,7 @@ export class NoteExtension extends NodeExtension<NoteOptions> {
         description: { default: '' },
         duration: { default: '' },
         interviewName: { default: '' },
+        labels: { default: [] },
         error: { default: null },
       },
       selectable: true,
@@ -153,20 +139,6 @@ export class NoteExtension extends NodeExtension<NoteOptions> {
         tr.delete(pos, pos + 1).scrollIntoView();
         this.options.onDeleteFile({ tr, pos, node });
         dispatch?.(tr);
-        return true;
-      }
-
-      return false;
-    };
-  }
-
-  @command()
-  renameFile(pos: number, fileName: string): CommandFunction {
-    return ({ tr, state, dispatch }) => {
-      const node = state.doc.nodeAt(pos);
-
-      if (node && node.type === this.type) {
-        dispatch?.(tr.setNodeMarkup(pos, undefined, { ...node.attrs, fileName }));
         return true;
       }
 
