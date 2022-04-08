@@ -2,11 +2,26 @@ import 'remirror/styles/all.css';
 
 import { useCallback } from 'react';
 import { htmlToProsemirrorNode } from 'remirror';
-import { CalloutExtension } from 'remirror/extensions';
-import { Remirror, ThemeProvider, useRemirror } from '@remirror/react';
+import { BlockquoteExtension, CalloutExtension } from 'remirror/extensions';
+import { Remirror, ThemeProvider, useActive, useCommands, useRemirror } from '@remirror/react';
+
+const BlockquoteButton = () => {
+  const commands = useCommands();
+  const active = useActive(true);
+  return (
+    <button
+      onMouseDown={(event) => event.preventDefault()}
+      onClick={() => commands.toggleBlockquote()}
+      className={active.blockquote() && 'active'}
+    >
+      Blockquote
+    </button>
+  );
+};
+
 
 const Basic = (): JSX.Element => {
-  const basicExtensions = useCallback(() => [new CalloutExtension()], []);
+  const basicExtensions = useCallback(() => [new CalloutExtension(), new BlockquoteExtension()], []);
   const { manager, state, onChange } = useRemirror({
     extensions: basicExtensions,
     content:
@@ -25,7 +40,9 @@ const Basic = (): JSX.Element => {
         onChange={onChange}
         initialContent={state}
         autoRender='end'
-      />
+      >
+        <BlockquoteButton />
+      </Remirror>
     </ThemeProvider>
   );
 };
