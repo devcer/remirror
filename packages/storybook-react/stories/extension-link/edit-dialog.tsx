@@ -143,9 +143,9 @@ const FloatingLinkToolbar = () => {
         label: 'Link',
         items: activeLink
           ? [
-              { type: ComponentItem.ToolbarButton, onClick: () => clickEdit(), icon: 'pencilLine' },
-              { type: ComponentItem.ToolbarButton, onClick: onRemove, icon: 'linkUnlink' },
-            ]
+            { type: ComponentItem.ToolbarButton, onClick: () => clickEdit(), icon: 'pencilLine' },
+            { type: ComponentItem.ToolbarButton, onClick: onRemove, icon: 'linkUnlink' },
+          ]
           : [{ type: ComponentItem.ToolbarButton, onClick: () => clickEdit(), icon: 'link' }],
       },
     ],
@@ -202,7 +202,7 @@ const EditDialog = (): JSX.Element => {
 
   return (
     <ThemeProvider>
-      <Remirror manager={manager} initialContent={state}>
+      <Remirror manager={manager} initialContent={state} editable={false}>
         <EditorComponent />
         <FloatingLinkToolbar />
       </Remirror>

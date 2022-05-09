@@ -19,7 +19,7 @@ const ClickHandler = (): JSX.Element => {
 
   return (
     <ThemeProvider>
-      <Remirror manager={manager} initialContent={state} />
+      <Remirror manager={manager} initialContent={state} editable={false} />
     </ThemeProvider>
   );
 };
