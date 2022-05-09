@@ -1,5 +1,32 @@
 # remirror
 
+## 1.0.74
+
+> 2022-04-06
+
+### Patch Changes
+
+- Fix a RangeError when the document is updated during the resizing.
+
+- Updated dependencies []:
+  - @remirror/extension-embed@1.1.25
+  - @remirror/extension-image@1.0.31
+  - @remirror/preset-wysiwyg@1.1.46
+
+## 1.0.73
+
+> 2022-04-04
+
+### Patch Changes
+
+- Update dependency prosemirror-view.
+
+- Updated dependencies []:
+  - @remirror/pm@1.0.16
+  - @remirror/extension-embed@1.1.24
+  - @remirror/extension-image@1.0.30
+  - @remirror/preset-wysiwyg@1.1.45
+
 ## 1.0.72
 
 > 2022-03-25

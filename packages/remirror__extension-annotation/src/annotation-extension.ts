@@ -16,6 +16,7 @@ import {
   within,
 } from '@remirror/core';
 import type { EditorState } from '@remirror/pm/state';
+import { Decoration, DecorationSet } from '@remirror/pm/view';
 
 import { AnnotationStore } from '.';
 import { ActionType, UpdateAnnotationAction } from './annotation-actions';
@@ -115,7 +116,53 @@ export class AnnotationExtension<Type extends Annotation = Annotation> extends P
       },
       props: {
         decorations(state: EditorState) {
-          return this.getState(state).decorationSet;
+          // debugger;
+          let { decorationSet, annotations, extension } = this.getState(state);
+          const { selection, doc } = state;
+          // const annotations = this.getAnnotationsAt(selection);
+          // return createAnnotationTooltip({ state, extension: this });
+          const currentAnnotations = annotations.filter(
+            (annotation) =>
+              annotation.from <= selection.from &&
+              annotation.to >= selection.to &&
+              annotation.from <= annotation.to,
+          );
+
+          if (currentAnnotations.length > 0) {
+            // this will choose the closest annotation to the selection
+            const lastAnnotation = currentAnnotations[currentAnnotations.length - 1];
+
+            const startDom = document.createElement('div');
+            startDom.className = 'annotation-start-drag-handle';
+            startDom.style.display = 'inline-block';
+            startDom.style.backgroundColor = 'black';
+            startDom.style.width = '4px';
+            startDom.style.height = '16px';
+
+            const endDom = document.createElement('div');
+            endDom.className = 'annotation-end-drag-handle';
+            endDom.style.display = 'inline-block';
+            endDom.style.backgroundColor = 'black';
+            endDom.style.width = '4px';
+            endDom.style.height = '16px';
+
+            const decorations = [
+              Decoration.widget(lastAnnotation.from, startDom),
+              Decoration.widget(lastAnnotation.to, endDom),
+            ];
+            decorationSet = decorationSet.add(doc, decorations);
+          }
+
+          // return DecorationSet.create(doc, decorations);
+          // console.log(decorations);
+          // console.log(decorationSet);
+          // debugger;
+          // console.log(decorationSet);
+          // decorationSet.add(doc, decorations);
+          // console.log(decorationSet);
+          // debugger;
+          // return DecorationSet.create(doc, [...decorations]);
+          return decorationSet;
         },
       },
     };
@@ -322,6 +369,67 @@ export class AnnotationExtension<Type extends Annotation = Annotation> extends P
       text,
     } as Type;
   };
+}
+
+function renderAnnotation(annotation, dispatch, state) {
+  const $annotation = document.createElement('li');
+  $annotation.classList.add('annotation-tooltip-item');
+
+  const $text = document.createElement('span');
+  $text.textContent = annotation.comment;
+
+  const $button = document.createElement('button');
+  $button.classList.add('annotation-delete-button');
+  $button.title = 'Delete annotation';
+  $button.textContent = 'x';
+  // use `mousedown` instead of `click` to execute before ProseMirror update the selection
+  $button.addEventListener('mousedown', () => {
+    dispatch(
+      state.tr.setMeta(annotationPlugin, {
+        type: ACTION_TYPE.DELETE_ANNOTATION,
+        annotation,
+      }),
+    );
+  });
+
+  $annotation.append($button);
+  $annotation.append($text);
+
+  return $annotation;
+}
+
+function renderAnnotationTooltip(annotations, dispatch, state) {
+  const $tooltip = document.createElement('div');
+  $tooltip.classList.add('annotation-tooltip');
+
+  const $annotations = document.createElement('ul');
+  $annotations.classList.add('annotation-tooltip-list');
+
+  annotations.forEach((annotation) => {
+    const $annotation = renderAnnotation(annotation, dispatch, state);
+    $annotations.append($annotation);
+  });
+
+  $tooltip.append($annotations);
+  return $tooltip;
+}
+
+function createAnnotationTooltip(props) {
+  debugger;
+  const { state, extension } = props;
+  const { selection, tr } = state;
+  // const { annotations } = state?.annotation$1 ?? { annotations: [] };
+  const annotations = [];
+  const decorations: Decoration[] = [];
+
+  // decorations.push(
+  //   Decoration.widget(selection.from, renderAnnotationTooltip(annotations, dispatch, state)),
+  // );
+
+  // return DecorationSet.create(state.doc, [
+  //   Decoration.widget(selection.from, renderAnnotationTooltip(annotations, dispatch, state)),
+  // ]);
+  return DecorationSet.create(state.doc, []);
 }
 
 declare global {

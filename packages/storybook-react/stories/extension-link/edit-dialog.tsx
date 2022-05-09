@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import type { ChangeEvent, HTMLProps, KeyboardEvent } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createMarkPositioner, LinkExtension, ShortcutHandlerProps } from 'remirror/extensions';
 import {
   ComponentItem,
@@ -109,6 +110,26 @@ function useFloatingLinkState() {
   );
 }
 
+const DelayAutoFocusInput = ({ autoFocus, ...rest }: HTMLProps<HTMLInputElement>) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!autoFocus) {
+      return;
+    }
+
+    const frame = window.requestAnimationFrame(() => {
+      inputRef.current?.focus();
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+    };
+  }, [autoFocus]);
+
+  return <input ref={inputRef} {...rest} />;
+};
+
 const FloatingLinkToolbar = () => {
   const { isEditing, linkPositioner, clickEdit, onRemove, submitHref, href, setHref, cancelHref } =
     useFloatingLinkState();
@@ -122,9 +143,9 @@ const FloatingLinkToolbar = () => {
         label: 'Link',
         items: activeLink
           ? [
-              { type: ComponentItem.ToolbarButton, onClick: () => clickEdit(), icon: 'pencilLine' },
-              { type: ComponentItem.ToolbarButton, onClick: onRemove, icon: 'linkUnlink' },
-            ]
+            { type: ComponentItem.ToolbarButton, onClick: () => clickEdit(), icon: 'pencilLine' },
+            { type: ComponentItem.ToolbarButton, onClick: onRemove, icon: 'linkUnlink' },
+          ]
           : [{ type: ComponentItem.ToolbarButton, onClick: () => clickEdit(), icon: 'link' }],
       },
     ],
@@ -149,13 +170,13 @@ const FloatingLinkToolbar = () => {
         enabled={isEditing}
         renderOutsideEditor
       >
-        <input
+        <DelayAutoFocusInput
           style={{ zIndex: 20 }}
           autoFocus
           placeholder='Enter link...'
-          onChange={(event) => setHref(event.target.value)}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => setHref(event.target.value)}
           value={href}
-          onKeyPress={(event) => {
+          onKeyPress={(event: KeyboardEvent<HTMLInputElement>) => {
             const { code } = event;
 
             if (code === 'Enter') {
@@ -181,7 +202,7 @@ const EditDialog = (): JSX.Element => {
 
   return (
     <ThemeProvider>
-      <Remirror manager={manager} initialContent={state}>
+      <Remirror manager={manager} initialContent={state} editable={false}>
         <EditorComponent />
         <FloatingLinkToolbar />
       </Remirror>

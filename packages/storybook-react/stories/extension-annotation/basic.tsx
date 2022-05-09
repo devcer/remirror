@@ -12,7 +12,7 @@ import {
   useRemirrorContext,
 } from '@remirror/react';
 
-const SAMPLE_TEXT = 'This is a sample text';
+const SAMPLE_TEXT = 'This is a sample text. this is extra text. this is more text';
 
 const Popup: FC = () => {
   const { helpers, getState } = useRemirrorContext({ autoUpdate: true });
@@ -74,12 +74,12 @@ const SmallEditor: FC = () => {
       {
         id: 'a-1',
         from: 1,
-        to: SAMPLE_TEXT.length + 1,
+        to: SAMPLE_TEXT.length - 20,
       },
       {
         id: 'a-2',
         from: 9,
-        to: SAMPLE_TEXT.length + 1,
+        to: SAMPLE_TEXT.length - 15,
       },
       {
         id: 'a-3',

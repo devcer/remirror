@@ -1,5 +1,40 @@
 # @remirror/react-editors
 
+## 0.1.69
+
+> 2022-04-06
+
+### Patch Changes
+
+- Fix a RangeError when the document is updated during the resizing.
+
+- Updated dependencies []:
+  - remirror@1.0.74
+
+## 0.1.68
+
+> 2022-04-04
+
+### Patch Changes
+
+- Update dependency prosemirror-view.
+
+- Updated dependencies []:
+  - @remirror/pm@1.0.16
+  - remirror@1.0.73
+
+## 0.1.67
+
+> 2022-04-04
+
+### Patch Changes
+
+- deleted an incorrect preselectClass style on react-table-extension
+
+- Updated dependencies []:
+  - @remirror/extension-react-tables@1.0.31
+  - @remirror/react@1.0.31
+
 ## 0.1.66
 
 > 2022-04-01
