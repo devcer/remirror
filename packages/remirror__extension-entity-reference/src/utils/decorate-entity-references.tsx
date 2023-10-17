@@ -9,15 +9,11 @@ import { findMinMaxRange } from './ranges';
 export const decorateEntityReferences = (
   entityReferences: EntityReferenceMetaData[][],
 ): Decoration[] => {
-  if (entityReferences.length === 0) {
-    return [];
-  }
+  const decorations: Decoration[] = [];
 
-  const decorations = entityReferences.map((overlappingEntityReferences) => {
-    // Consider up to 5 overlapping entity references
+  for (const overlappingEntityReferences of entityReferences) {
     const backgroundShade = Math.min(overlappingEntityReferences.length, 5) / 5;
     const notBlue = 200 * (1 - backgroundShade) + 55;
-    // We must set padding to have the decoration claim the same height as the mark
     const style = `background: rgb(${notBlue}, ${notBlue}, 255);padding: 6px 0;`;
     const [from, to] = findMinMaxRange(overlappingEntityReferences);
 
@@ -25,9 +21,11 @@ export const decorateEntityReferences = (
       inclusiveStart: true,
       inclusiveEnd: true,
     };
-    // Add decoration to all inline nodes in the given range.
-    return Decoration.inline(from, to, { style }, specs);
-  });
 
-  return [...decorations];
+    // Add decoration to all inline nodes in the given range.
+    decorations.push(Decoration.inline(from, to, { style }, specs));
+  }
+
+  return decorations;
 };
+

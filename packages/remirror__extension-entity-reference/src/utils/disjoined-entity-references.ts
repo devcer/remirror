@@ -17,18 +17,15 @@ export function getDisjoinedEntityReferencesFromNode(
 ): EntityReferenceMetaData[] {
   const isEntityReference = (mark: Mark) => mark.type.name === markTypeName;
   return node.marks.filter(isEntityReference).map((mark: Mark) => {
-    const { id, ...rest } = mark.attrs;
+    const { id, ...attrs } = mark.attrs;
 
     const metaData: EntityReferenceMetaData = {
       from: pos,
-      to: pos + Math.max(node.textContent.length, 1),
+      to: pos + (node.textContent.length || 1),
       id,
       text: node.textContent,
+      ...(Object.keys(attrs).length > 0 && { attrs }),
     };
-
-    if (Object.keys(rest).length > 0) {
-      metaData.attrs = rest;
-    }
 
     return metaData;
   });
