@@ -35,13 +35,16 @@ const joinDisjoinedEntityReference = (
 
   // Find outer bound of all marks belong to the entityReference
   const [same, diff] = partitionEntityReferences(entityReferences, (h) => h.id === id);
-  const [from, to] = findMinMaxRange(same.concat(entityReference));
+  const [from, to] = findMinMaxRange([...same, entityReference]);
   const fullText = same.map((h) => h.text).join(' ');
   // Respect existing keys and merge them into the new entityReference.
-  entityReference.from = from;
-  entityReference.to = to;
-  entityReference.text = fullText + text;
-  return [...diff, entityReference];
+  const newEntityReference: EntityReferenceMetaData = {
+    ...entityReference,
+    from,
+    to,
+    text: fullText + text,
+  };
+  return [...diff, newEntityReference];
 };
 
 /**

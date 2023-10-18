@@ -12,18 +12,4 @@ type EntityReferenceMarkText = Pick<EntityReferenceMetaData, 'text'>;
  */
 export const getShortestEntityReference = <T extends EntityReferenceMarkText>(
   entityReferences: T[],
-): T | undefined => {
-  if (entityReferences.length === 0) {
-    return undefined;
-  }
-
-  let shortestEntity = entityReferences[0];
-
-  for (let i = 1; i < entityReferences.length; i++) {
-    if (entityReferences[i].text.length < shortestEntity.text.length) {
-      shortestEntity = entityReferences[i];
-    }
-  }
-
-  return shortestEntity;
-};
+): T | undefined => entityReferences.sort(({ text: a }, { text: b }) => a.length - b.length)[0];
